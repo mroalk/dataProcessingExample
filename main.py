@@ -7,7 +7,12 @@ from json import dumps, loads
 
 from pandas.io.stata import stata_epoch
 
-# Switching to Pandas instead of BS4. Simpler.
+# Goals:
+# 1. Scrape table from a website.
+# 2. Load into Pandas
+# 3. Clean DF
+# 4. Convert into json/exportable format.
+# 5. Find way to programmatically load into Tableau for presentation?
 
 # Lakes touch multiple countries. Idea won't work.
 #url = 'https://en.wikipedia.org/wiki/List_of_lakes_by_depth'
