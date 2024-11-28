@@ -27,6 +27,9 @@ stateCapitalsTrimmed = stateCapitals.drop(
     axis=1)
 # Flattening the Multi-index since it no longer holds value.
 stateCapitalsTrimmed.columns = stateCapitalsTrimmed.columns.get_level_values(0)
+#Splitting the Area Column into sqmi and km^2, then dropping AreaKM.
+stateCapitalsTrimmed[['Area','AreaKM']] = stateCapitalsTrimmed['Area'].str.split('(',expand=True)
+stateCapitalsTrimmed = stateCapitalsTrimmed.drop('AreaKM',axis=1)
 
 # Splitting
-jobj = stateCapitals.to_json()
+jobj = stateCapitalsTrimmed.to_json()
