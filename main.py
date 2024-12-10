@@ -1,5 +1,7 @@
-import requests
+import json
+
 import pandas as pd
+import pantab as pt
 import lxml
 import html5lib
 
@@ -27,9 +29,25 @@ stateCapitalsTrimmed = stateCapitals.drop(
     axis=1)
 # Flattening the Multi-index since it no longer holds value.
 stateCapitalsTrimmed.columns = stateCapitalsTrimmed.columns.get_level_values(0)
-#Splitting the Area Column into sqmi and km^2, then dropping AreaKM.
+#Splitting the Area Column into sqmi and km^2, then dropping AreaKM and a column with no data.
 stateCapitalsTrimmed[['Area','AreaKM']] = stateCapitalsTrimmed['Area'].str.split('(',expand=True)
-stateCapitalsTrimmed = stateCapitalsTrimmed.drop('AreaKM',axis=1)
+stateCapitalsTrimmed.drop('AreaKM',axis=1,inplace=True)
+stateCapitalsTrimmed.drop(50,inplace=True)
 
-# Splitting
-jobj = stateCapitalsTrimmed.to_json()
+pt.frame_to_hyper(stateCapitalsTrimmed,"capitals.hyper",table="Capitals")
+#
+# Commenting out, but holding onto, the code below, in case I decide to return and rework this.
+#
+
+# Converting to Json Object & Cleaning value error.
+#stringObj = stateCapitalsTrimmed.to_json()
+#jobj = loads(stringObj)
+
+#for key in jobj['Area']:
+#    value = jobj['Area'][key]
+#    value.replace('\xa0',' ')
+#    jobj['Area'][key] = value
+
+#jobjSerial = json.dumps(jobj,indent=4)
+#with open("capitals.json","w") as outfile:
+#    outfile.write(jobjSerial)
